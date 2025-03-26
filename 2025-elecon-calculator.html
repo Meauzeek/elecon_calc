@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元素竞赛计分计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(245, 245, 245);
+            color: rgb(10, 61, 154);
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgb(255, 255, 255);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: rgb(10, 61, 154);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            width: 100px;
+            margin-right: 15px;
+        }
+        select, input[type="number"] {
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            background-color: rgb(245, 245, 245);
+            color: rgb(10, 61, 154);
+        }
+        .checkbox-container {
+            margin: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .score-display {
+            flex-grow: 1;
+            text-align: left;
+            color: rgb(255, 255, 255);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+        }
+        .score-item {
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            color: rgb(255, 255, 255);
+        }
+        .metal-score { background-color: rgb(236, 127, 130); }
+        .nonmetal-score { background-color: rgb(151, 174, 219); }
+        .noble-gas-score { background-color: rgb(150, 150, 150); }
+        .input-section {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-section label {
+            margin-right: 10px;
+            width: auto;
+        }
+        #organizer-participate-label {
+            font-weight: normal;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+        }
+        #total-score {
+            font-size: 28px;
+            font-weight: bold;
+            color: rgb(10, 61, 154);
+            text-align: center;
+            margin-top: 30px;
+            background-color: rgb(253, 200, 47);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .metal-label { color: rgb(236, 127, 130); }
+        .metal-select { border: 2px solid rgb(236, 127, 130); }
+        .metal-bounty { accent-color: rgb(236, 127, 130); }
+        .nonmetal-label { color: rgb(151, 174, 219); }
+        .nonmetal-select { border: 2px solid rgb(151, 174, 219); }
+        .nonmetal-bounty { accent-color: rgb(151, 174, 219); }
+        .noble-gas-label { color: rgb(150, 150, 150); }
+        .noble-gas-select { border: 2px solid rgb(150, 150, 150); }
+        .noble-gas-bounty { accent-color: rgb(150, 150, 150); }
+        @media (max-width: 600px) {
+            .section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .checkbox-container {
+                margin: 10px 0;
+            }
+            .score-display {
+                margin-top: 10px;
+                width: 100%;
+            }
+            .score-item {
+                width: 100%;
+            }
+            .input-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .input-section label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>元素竞赛计分计算器</h1>
+
+        <!-- 金属选择 -->
+        <div class="section">
+            <label for="metal-select" class="metal-label">金属元素</label>
+            <select id="metal-select" class="metal-select">
+                <option value="">请选择</option>
+            </select>
+            <div class="checkbox-container">
+                <input type="checkbox" id="metal-bounty" class="metal-bounty"> 悬赏条件
+            </div>
+            <div class="score-display" id="metal-score">
+                <div class="score-item metal-score">基础分: -</div>
+                <div class="score-item metal-score">悬赏分: -</div>
+            </div>
+        </div>
+
+        <!-- 非金属选择 -->
+        <div class="section">
+            <label for="nonmetal-select" class="nonmetal-label">非金属元素</label>
+            <select id="nonmetal-select" class="nonmetal-select">
+                <option value="">请选择</option>
+            </select>
+            <div class="checkbox-container">
+                <input type="checkbox" id="nonmetal-bounty" class="nonmetal-bounty"> 悬赏条件
+            </div>
+            <div class="score-display" id="nonmetal-score">
+                <div class="score-item nonmetal-score">基础分: -</div>
+                <div class="score-item nonmetal-score">悬赏分: -</div>
+            </div>
+        </div>
+
+        <!-- 稀有气体选择 -->
+        <div class="section">
+            <label for="noble-gas-select" class="noble-gas-label">稀有气体</label>
+            <select id="noble-gas-select" class="noble-gas-select">
+                <option value="">请选择</option>
+            </select>
+            <div class="checkbox-container">
+                <input type="checkbox" id="noble-gas-bounty" class="noble-gas-bounty"> 悬赏条件
+            </div>
+            <div class="score-display" id="noble-gas-score">
+                <div class="score-item noble-gas-score">基础分: -</div>
+                <div class="score-item noble-gas-score">悬赏分: -</div>
+            </div>
+        </div>
+
+        <!-- 文章评分 -->
+        <div class="input-section">
+            <label for="article-score">文章评分</label>
+            <input type="number" id="article-score" min="0" step="1" value="0">
+        </div>
+
+        <!-- 成就得分 -->
+        <div class="input-section">
+            <label for="achievement-score">成就得分</label>
+            <input type="number" id="achievement-score" min="0" step="1" value="0">
+        </div>
+
+        <!-- 主办方参赛 -->
+        <div class="center">
+            <label id="organizer-participate-label">
+                <input type="checkbox" id="organizer-participate"> 主办方参赛
+            </label>
+        </div>
+
+        <!-- 总分显示 -->
+        <div id="total-score">总分: 0</div>
+    </div>
+
+    <script>
+        // 元素数据
+        const elements = {
+            metal: {
+                '1-H': { name: '1号-氢 (H)', base: 2, bounty: 3 },
+                '3-Li': { name: '3号-锂 (Li)', base: 3, bounty: 4 },
+                '4-Be': { name: '4号-铍 (Be)', base: 4, bounty: 2 },
+                '11-Na': { name: '11号-钠 (Na)', base: 4, bounty: 1 },
+                '12-Mg': { name: '12号-镁 (Mg)', base: 5, bounty: 2 },
+                '13-Al': { name: '13号-铝 (Al)', base: 6, bounty: 4 },
+                '19-K': { name: '19号-钾 (K)', base: 5, bounty: 3 },
+                '20-Ca': { name: '20号-钙 (Ca)', base: 6, bounty: 1.5 },
+                '21-Sc': { name: '21号-钪 (Sc)', base: 6.5, bounty: 1.5 },
+                '22-Ti': { name: '22号-钛 (Ti)', base: 6.5, bounty: 2 },
+                '23-V': { name: '23号-钒 (V)', base: 6.5, bounty: 3.5 },
+                '24-Cr': { name: '24号-铬 (Cr)', base: 6.5, bounty: 4.5 },
+                '25-Mn': { name: '25号-锰 (Mn)', base: 6.5, bounty: 3.5 },
+                '26-Fe': { name: '26号-铁 (Fe)', base: 6.5, bounty: 4 },
+                '27-Co': { name: '27号-钴 (Co)', base: 6.5, bounty: 2.5 },
+                '28-Ni': { name: '28号-镍 (Ni)', base: 6.5, bounty: 1 },
+                '29-Cu': { name: '29号-铜 (Cu)', base: 6.5, bounty: 1 },
+                '30-Zn': { name: '30号-锌 (Zn)', base: 6.5, bounty: 5 },
+                '31-Ga': { name: '31号-镓 (Ga)', base: 7, bounty: 3 },
+                '32-Ge': { name: '32号-锗 (Ge)', base: 8, bounty: 3 }
+            },
+            nonmetal: {
+                '1-H': { name: '1号-氢 (H)', base: 2, bounty: 3 },
+                '5-B': { name: '5号-硼 (B)', base: 5, bounty: 3 },
+                '6-C': { name: '6号-碳 (C)', base: 6, bounty: 4 },
+                '7-N': { name: '7号-氮 (N)', base: 7, bounty: 2.5 },
+                '8-O': { name: '8号-氧 (O)', base: 8, bounty: 2 },
+                '9-F': { name: '9号-氟 (F)', base: 9, bounty: 3 },
+                '14-Si': { name: '14号-硅 (Si)', base: 7, bounty: 2 },
+                '15-P': { name: '15号-磷 (P)', base: 8, bounty: 1.5 },
+                '16-S': { name: '16号-硫 (S)', base: 9, bounty: 3 },
+                '17-Cl': { name: '17号-氯 (Cl)', base: 10, bounty: 3 },
+                '33-As': { name: '33号-砷 (As)', base: 9, bounty: 3 },
+                '34-Se': { name: '34号-硒 (Se)', base: 10, bounty: 2 },
+                '35-Br': { name: '35号-溴 (Br)', base: 11, bounty: 5 }
+            },
+            nobleGas: {
+                '2-He': { name: '2号-氦 (He)', base: 1, bounty: 5 },
+                '10-Ne': { name: '10号-氖 (Ne)', base: 2, bounty: 5 },
+                '18-Ar': { name: '18号-氩 (Ar)', base: 3, bounty: 5 },
+                '36-Kr': { name: '36号-氪 (Kr)', base: 4, bounty: 3 },
+                '0-Nu': { name: '0号-无 (Nu)', base: 0, bounty: 0 }
+            }
+        };
+
+        // 分数变量（使用 var 声明以成为 window 属性）
+        var metalScore = 0;
+        var nonmetalScore = 0;
+        var nobleGasScore = 0;
+
+        // DOM 元素
+        const metalSelect = document.getElementById('metal-select');
+        const nonmetalSelect = document.getElementById('nonmetal-select');
+        const nobleGasSelect = document.getElementById('noble-gas-select');
+        const metalBounty = document.getElementById('metal-bounty');
+        const nonmetalBounty = document.getElementById('nonmetal-bounty');
+        const nobleGasBounty = document.getElementById('noble-gas-bounty');
+        const metalScoreDisplay = document.getElementById('metal-score');
+        const nonmetalScoreDisplay = document.getElementById('nonmetal-score');
+        const nobleGasScoreDisplay = document.getElementById('noble-gas-score');
+        const articleScoreInput = document.getElementById('article-score');
+        const achievementScoreInput = document.getElementById('achievement-score');
+        const organizerParticipate = document.getElementById('organizer-participate');
+        const totalScoreDisplay = document.getElementById('total-score');
+
+        // 填充下拉菜单
+        function populateSelect(select, category) {
+            for (const [key, data] of Object.entries(elements[category])) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = data.name;
+                select.appendChild(option);
+            }
+        }
+
+        populateSelect(metalSelect, 'metal');
+        populateSelect(nonmetalSelect, 'nonmetal');
+        populateSelect(nobleGasSelect, 'nobleGas');
+
+        // 更新分数和显示
+        function updateScore(select, bountyCheckbox, scoreDisplay, category, scoreVarName) {
+            const selectedValue = select.value;
+            let base = 0;
+            let bounty = 0;
+            if (selectedValue && elements[category][selectedValue]) {
+                base = elements[category][selectedValue].base;
+                bounty = elements[category][selectedValue].bounty;
+                scoreDisplay.querySelector('.score-item:first-child').textContent = `基础分: ${base}`;
+                scoreDisplay.querySelector('.score-item:last-child').textContent = `悬赏分: ${bounty}`;
+            } else {
+                scoreDisplay.querySelector('.score-item:first-child').textContent = `基础分: -`;
+                scoreDisplay.querySelector('.score-item:last-child').textContent = `悬赏分: -`;
+                base = 0;
+                bounty = 0;
+            }
+
+            // 更新元素得分变量（通过 window 对象更新）
+            window[scoreVarName] = base + (bountyCheckbox.checked ? bounty : 0);
+
+            // 处理氢的选择
+            if (selectedValue === '1-H') {
+                const otherSelect = category === 'metal' ? nonmetalSelect : metalSelect;
+                for (let option of otherSelect.options) {
+                    if (option.value === '1-H') {
+                        option.disabled = true;
+                    }
+                }
+            } else {
+                const otherSelect = category === 'metal' ? nonmetalSelect : metalSelect;
+                const otherValue = otherSelect.value;
+                if (otherValue !== '1-H') {
+                    for (let option of metalSelect.options) {
+                        if (option.value === '1-H') option.disabled = false;
+                    }
+                    for (let option of nonmetalSelect.options) {
+                        if (option.value === '1-H') option.disabled = false;
+                    }
+                }
+            }
+
+            // 每次更新后立即计算总分
+            calculateTotalScore();
+        }
+
+        // 计算总分
+        function calculateTotalScore() {
+            const articleScore = parseFloat(articleScoreInput.value) || 0;
+            const achievementScore = parseFloat(achievementScoreInput.value) || 0;
+            const elementScore = metalScore + nonmetalScore + nobleGasScore;
+            const multiplier = organizerParticipate.checked ? 0.93 : 1;
+            const totalScore = articleScore * (multiplier + 0.05 * elementScore) + achievementScore;
+            totalScoreDisplay.textContent = `总分: ${totalScore.toFixed(2)}`;
+        }
+
+        // 事件监听
+        metalSelect.addEventListener('change', () => updateScore(metalSelect, metalBounty, metalScoreDisplay, 'metal', 'metalScore'));
+        nonmetalSelect.addEventListener('change', () => updateScore(nonmetalSelect, nonmetalBounty, nonmetalScoreDisplay, 'nonmetal', 'nonmetalScore'));
+        nobleGasSelect.addEventListener('change', () => updateScore(nobleGasSelect, nobleGasBounty, nobleGasScoreDisplay, 'nobleGas', 'nobleGasScore'));
+        metalBounty.addEventListener('change', () => updateScore(metalSelect, metalBounty, metalScoreDisplay, 'metal', 'metalScore'));
+        nonmetalBounty.addEventListener('change', () => updateScore(nonmetalSelect, nonmetalBounty, nonmetalScoreDisplay, 'nonmetal', 'nonmetalScore'));
+        nobleGasBounty.addEventListener('change', () => updateScore(nobleGasSelect, nobleGasBounty, nobleGasScoreDisplay, 'nobleGas', 'nobleGasScore'));
+        articleScoreInput.addEventListener('input', calculateTotalScore);
+        achievementScoreInput.addEventListener('input', calculateTotalScore);
+        organizerParticipate.addEventListener('change', calculateTotalScore);
+
+        // 初始化总分
+        calculateTotalScore();
+    </script>
+</body>
+</html>
