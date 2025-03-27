@@ -341,7 +341,7 @@
             const achievementScore = parseFloat(achievementScoreInput.value) || 0;
             const elementScore = metalScore + nonmetalScore + nobleGasScore;
             const multiplier = organizerParticipate.checked ? 0.93 : 1;
-            const totalScore = articleScore * (multiplier + 0.05 * elementScore) + achievementScore;
+            const totalScore = multiplier * (articleScore * (1 + 0.05 * elementScore) + achievementScore);
             totalScoreDisplay.textContent = `总分: ${totalScore.toFixed(2)}`;
         }
 
